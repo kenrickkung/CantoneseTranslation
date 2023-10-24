@@ -1,16 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
-import yaml
 
-# cred = yaml.load(open('conf/application.yml'))
-# username= conf['wenlin']['username']
-# pwd = conf['wenlin']['password']
-# sessionId
 
 cookies = {
-    'wenlinco_wowdbUserName': "Kenrick0722",
-    'wenlinco_wowdbUserID': "2024",
-    'wenlinco_wowdb_session': "v1p4456b4kfvjsh7fj3e85fjlep043p2",
+    'wenlinco_wowdbUserName': ...,
+    'wenlinco_wowdbUserID': ...,
+    'wenlinco_wowdb_session': ...,
 }
 
 def write_titles(titles: [str], filename: str='titles.txt') -> None:

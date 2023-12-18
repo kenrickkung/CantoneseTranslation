@@ -1,0 +1,5 @@
+.Rapp.history
+.DS_Store
+**/**.json
+**/lihkg**.csv
+**/lihkg**.txt

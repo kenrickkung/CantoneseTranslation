@@ -3,3 +3,7 @@
 **/**.json
 **/lihkg**.csv
 **/lihkg**.txt
+**/__pycache__/**
+Backend/models/**
+Frontend/node_modules/**
+Frontend/.next/**

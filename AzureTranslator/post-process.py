@@ -8,7 +8,7 @@ for i in range(1,61):
         translations.extend(t)
 
 
-with open("AzureTranslator/translated.txt", "w") as f:
+with open("../results/bing_translated.txt", "w") as f:
     for translation in translations:
         f.write(f'{translation["translations"][0]["text"]}\n')
         

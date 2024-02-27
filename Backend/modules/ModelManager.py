@@ -1,23 +1,31 @@
 import torch
-from models.NllbForwardModelLoader import NllbForwardModelLoader
-from models.NllbBackModelLoader import NllbBackModelLoader
-from models.OpusForwardModelLoader import OpusForwardModelLoader
-from models.OpusBackModelLoader import OpusBackModelLoader
+from modules.NllbForwardModelLoader import NllbForwardModelLoader
+from modules.NllbBackModelLoader import NllbBackModelLoader
+from modules.OpusForwardModelLoader import OpusForwardModelLoader
+from modules.OpusBackModelLoader import OpusBackModelLoader
 from collections import OrderedDict
+from os import listdir
 
 class ModelManager:
     def __init__(self):
         self.device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
         self.models = OrderedDict()  # Keeps track of loaded models
         self.max_models = 4  # Max number of models to keep in memory simultaneously
-        
-        # Load 2 Default Model
-        self.load_model("nllb", "zh")
-        self.load_model("nllb", "en")
+        self.model_types = set(["nllb", "opus"])
+        self.srcs = set(["zh", "en"])
 
-    def load_model(self, model_name, src):
+    def get_model_path(self, model_type, src):
+        if model_type not in self.model_types:
+            raise ValueError(f"Model Type {model_type} does not Exist")
+        if src not in self.srcs:
+            raise ValueError(f"Source {src} does not Exist")
+        
+        return [file for file in listdir(f"models/{model_type}-{src}") if not file.startswith('.')]
+
+
+    def _load_model(self, model_type, src, path):
         # Load a model
-        model = self._load_model_logic(model_name, src)
+        model = self._load_model_logic(model_type, src, path)
         model.to_device()
         model.set_eval_mode()
 
@@ -26,20 +34,22 @@ class ModelManager:
             self._unload_least_recently_used_model()
 
         # Add or move the model to the end to mark it as the most recently used
-        self.models[f"{model_name}-{src}"] = model
+        self.models[f"{model_type}-{src}-{path}"] = model
 
         return model
 
-    def _load_model_logic(self, model_name, src):
-        if model_name == "nllb" and src == "zh":
-            return NllbForwardModelLoader()
-        if model_name == "nllb" and src == "en":
-            return NllbBackModelLoader()
-        if model_name == "opus" and src == "zh":
-            return OpusForwardModelLoader()
-        if model_name == "opus" and src == "en":
-            return OpusBackModelLoader()
-        raise ValueError("The Model does not Exist")
+    def _load_model_logic(self, model_type, src, path):
+        if path != " " and path not in self.get_model_path(model_type, src):
+                raise ValueError("The Model Path does not exist")
+        if model_type == "nllb" and src == "zh":
+            return NllbForwardModelLoader(path)
+        if model_type == "nllb" and src == "en":
+            return NllbBackModelLoader(path)
+        if model_type == "opus" and src == "zh":
+            return OpusForwardModelLoader(path)
+        if model_type == "opus" and src == "en":
+            return OpusBackModelLoader(path)
+        raise ValueError(f"The Model Type {model_type} or Source {src} does not Exist")
 
     def _unload_least_recently_used_model(self):
         # Remove the least recently used model from memory and GPU
@@ -48,11 +58,11 @@ class ModelManager:
         if self.device == "mps":
             torch.mps.empty_cache()
 
-    def get_model(self, model_name, src):
-        if f"{model_name}-{src}" in self.models:
+    def get_model(self, model_type, src, path):
+        if f"{model_type}-{src}-{path}" in self.models:
             # Move to the end to mark as recently used
-            model = self.models.pop(f"{model_name}-{src}")
-            self.models[f"{model_name}-{src}"] = model
+            model = self.models.pop(f"{model_type}-{src}-{path}")
+            self.models[f"{model_type}-{src}-{path}"] = model
         else:
-            model = self.load_model(model_name, src)
+            model = self._load_model(model_type, src, path)
         return model

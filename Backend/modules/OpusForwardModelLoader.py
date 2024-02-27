@@ -1,10 +1,12 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-from models.BaseModelLoader import BaseModelLoader
+from modules.BaseModelLoader import BaseModelLoader
 
 class OpusForwardModelLoader(BaseModelLoader):
-    def __init__(self, path="./models/opus-mt-zh-en-finetuned"):
+    def __init__(self, path):
         super().__init__()
-        self.load_model(path)
+        if path == " ":
+            path = "opus-mt-zh-en-finetuned"
+        self.load_model(f"models/opus-zh/{path}")
     
     def load_model(self, path):
         # Model-specific loading logic for Model A

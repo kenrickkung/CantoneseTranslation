@@ -1,10 +1,12 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-from models.BaseModelLoader import BaseModelLoader
+from modules.BaseModelLoader import BaseModelLoader
 
 class NllbForwardModelLoader(BaseModelLoader):
-    def __init__(self, path="./models/nllb-forward-1t1"):
+    def __init__(self, path):
         super().__init__()
-        self.load_model(path)
+        if path == " ":
+            path = "nllb-forward-1t1"
+        self.load_model(f"models/nllb-zh/{path}")
     
     def load_model(self, path):
         # Model-specific loading logic for Model A

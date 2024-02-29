@@ -1,7 +1,8 @@
 import { LanguageSelect } from '@/components/LanguageSelect';
 import { ModelSelect } from '@/components/ModelSelect';
+import { PathSelect } from '@/components/PathSelect';
 import { TextBlock } from '@/components/TextBlock';
-import { Model, TranslateBody } from '@/types/types';
+import { Model, TranslateBody, ModelBody } from '@/types/types';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
@@ -11,8 +12,38 @@ export default function Home() {
   const [inputText, setInputText] = useState<string>('');
   const [outputText, setOutputText] = useState<string>('');
   const [model, setModel] = useState<Model>('nllb');
+  const [paths, setPaths] = useState<string[]>([]);
+  const [selectedPath, setSelectedPath] = useState<string>(paths[0] || "");
   const [loading, setLoading] = useState<boolean>(false);
   const [hasTranslated, setHasTranslated] = useState<boolean>(false);
+
+  const handleModelType = async () => {
+    try {
+      const body: ModelBody = {
+        model,
+        src,
+      };
+
+      const response = await fetch('/api/models', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        throw new Error('Something went wrong with the translation service.');
+      }
+
+      const { model_path } = await response.json();
+      setPaths(model_path);
+
+    } catch (error){
+      console.error(error);
+      alert('Something went wrong.');
+    }
+  }
 
   const handleTranslate = async () => {
     if (src === tgt) {
@@ -33,6 +64,7 @@ export default function Home() {
         src,
         inputText,
         model,
+        selectedPath,
       };
 
       const response = await fetch('/api/translate', {
@@ -76,11 +108,25 @@ export default function Home() {
     if (src === 'en') {
       setTgt('zh');
     }
+  }, [src])
 
+  useEffect(() => {
+    if (paths.length > 0) {
+      setSelectedPath(paths[0]);
+    }
+  }, [paths]);
+
+  useEffect(() => {
     if (hasTranslated) {
       handleTranslate();
     }
-  }, [src, inputText, hasTranslated]);
+  }, [hasTranslated]);
+
+  useEffect(() => {
+    if (model) {
+      handleModelType();
+    }
+  }, [model]);
   return (
     <>
       <Head>
@@ -99,6 +145,9 @@ export default function Home() {
 
         <div className="mt-2 flex items-center space-x-2">
           <ModelSelect model={model} onChange={(value) => setModel(value)} />
+          {paths.length > 0 && (
+          <PathSelect paths={paths} selectedPath={selectedPath} onChange={setSelectedPath} />
+          )}
 
           <button
             className="w-[140px] cursor-pointer rounded-md bg-violet-500 px-4 py-2 font-bold hover:bg-violet-600 active:bg-violet-700"
@@ -113,7 +162,7 @@ export default function Home() {
           {loading
             ? 'Translating...'
             : hasTranslated
-            ? 'Output copied to clipboard!'
+            ? 'Translated!'
             : 'Enter some text and click "Translate"'}
         </div>
 

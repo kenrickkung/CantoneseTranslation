@@ -13,7 +13,7 @@ export const LanguageSelect: FC<Props> = ({ language, onChange, disabled = false
 
   return (
     <select
-      className="w-full rounded-md bg-[#1F2937] px-4 py-2 text-neutral-200"
+      className="w-full rounded-md bg-[#1F2937] px-4 py-2 text-neutral-200 text-center"
       value={language}
       onChange={handleChange}
       disabled={disabled}

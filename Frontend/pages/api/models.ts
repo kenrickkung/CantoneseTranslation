@@ -1,5 +1,5 @@
-import { TranslateBody } from '@/types/types';
-import { Translate } from '@/utils';
+import { ModelBody } from '@/types/types';
+import { GetModel } from '@/utils';
 
 export const config = {
   runtime: 'edge',
@@ -7,14 +7,12 @@ export const config = {
 
 const handler = async (req: Request): Promise<Response> => {
   try {
-    const { src, inputText, model, selectedPath} =
-      (await req.json()) as TranslateBody;
+    const { model, src} =
+      (await req.json()) as ModelBody;
 
-    const response = await Translate(
-      src,
-      inputText,
+    const response = await GetModel(
       model,
-      selectedPath
+      src,
     );
 
     return new Response(JSON.stringify(response), {

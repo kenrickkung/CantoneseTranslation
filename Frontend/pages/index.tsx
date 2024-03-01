@@ -101,6 +101,10 @@ export default function Home() {
   };
 
   useEffect(() => {
+    document.body.classList.add("body-background");
+  }, [])
+
+  useEffect(() => {
     if (src === 'zh') {
       setTgt('en');
     }
@@ -123,10 +127,10 @@ export default function Home() {
   }, [hasTranslated]);
 
   useEffect(() => {
-    if (model) {
+    if (model && src) {
       handleModelType();
     }
-  }, [model]);
+  }, [model, src]);
   return (
     <>
       <Head>
@@ -140,7 +144,8 @@ export default function Home() {
       </Head>
       <div className="flex h-full min-h-screen flex-col items-center bg-[#0E1117] px-4 pb-20 text-neutral-200 sm:px-10">
         <div className="mt-10 flex flex-col items-center justify-center sm:mt-20">
-          <div className="text-4xl font-bold">Cantonese Translator</div>
+          <div className="block text-transparent bg-clip-text bg-gradient-to-r 
+          from-blue-500 via-pink-500 to-blue-500 text-4xl font-bold">Cantonese Translator</div>
         </div>
 
         <div className="mt-2 flex items-center space-x-2">

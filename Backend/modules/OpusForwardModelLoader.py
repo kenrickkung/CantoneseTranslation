@@ -14,7 +14,9 @@ class OpusForwardModelLoader(BaseModelLoader):
         self.tokenizer = AutoTokenizer.from_pretrained(
             path
         )
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(path)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(
+            path,
+        )
 
         self.to_device()
         self.set_eval_mode()

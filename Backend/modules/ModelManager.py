@@ -1,8 +1,10 @@
 import torch
-from modules.NllbForwardModelLoader import NllbForwardModelLoader
-from modules.NllbBackModelLoader import NllbBackModelLoader
+from modules.MbartBackModelLoader import MbartBackModelLoader
+from modules.MbartForwardModelLoader import MbartForwardModelLoader
 from modules.OpusForwardModelLoader import OpusForwardModelLoader
 from modules.OpusBackModelLoader import OpusBackModelLoader
+from modules.NllbForwardModelLoader import NllbForwardModelLoader
+from modules.NllbBackModelLoader import NllbBackModelLoader
 from collections import OrderedDict
 from os import listdir
 
@@ -11,7 +13,7 @@ class ModelManager:
         self.device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
         self.models = OrderedDict()  # Keeps track of loaded models
         self.max_models = 4  # Max number of models to keep in memory simultaneously
-        self.model_types = set(["nllb", "opus"])
+        self.model_types = set(["nllb", "opus", "mbart"])
         self.srcs = set(["zh", "en"])
 
     def get_model_path(self, model_type, src):
@@ -49,6 +51,10 @@ class ModelManager:
             return OpusForwardModelLoader(path)
         if model_type == "opus" and src == "en":
             return OpusBackModelLoader(path)
+        if model_type == "mbart" and src == "zh":
+            return MbartForwardModelLoader(path)
+        if model_type == "mbart" and src == "en":
+            return MbartBackModelLoader(path)
         raise ValueError(f"The Model Type {model_type} or Source {src} does not Exist")
 
     def _unload_least_recently_used_model(self):

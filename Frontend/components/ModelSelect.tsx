@@ -19,6 +19,7 @@ export const ModelSelect: FC<Props> = ({ model, onChange }) => {
     >
       <option value="nllb">NLLB</option>
       <option value="opus">Opus-MT</option>
+      <option value="mbart">MBart</option>
     </select>
   );
 };

@@ -10,7 +10,14 @@ from os import listdir
 
 class ModelManager:
     def __init__(self):
-        self.device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+        if torch.cuda.is_available():
+            device = torch.device("cuda")
+        elif torch.backends.mps.is_available():
+            device = torch.device("mps")
+        else:
+            device = torch.device("cpu")
+        
+        self.device = device
         self.models = OrderedDict()  # Keeps track of loaded models
         self.max_models = 4  # Max number of models to keep in memory simultaneously
         self.model_types = set(["nllb", "opus", "mbart"])

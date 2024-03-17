@@ -34,9 +34,9 @@ npm run dev
 ```
 The user interface should be correctly set up on http://localhost:3000/.
 
-## Reference: pls cite our paper if you use the toolkit or data from this repository
-[pre-print](https://github.com/kenrickkung/CantoneseTranslation/blob/main/view_CantonMT.pdf)
-CANTONMT: Cantonese to English NMT Platform with Fine-Tuned Models using Synthetic Back-Translation Data. 2024. 
+## Reference: Please cite our paper if you use the toolkit or data from this repository
+[pre-print](https://github.com/kenrickkung/CantoneseTranslation/blob/main/view-CantonMT_v1.pdf)
+'CANTONMT: Cantonese to English NMT Platform with Fine-Tuned Models using Synthetic Back-Translation Data'. 2024. 
 Kung Yin Hong, Lifeng Han, Riza Batista-Navarro, Goran Nenadic. Forthcoming. 
 
 

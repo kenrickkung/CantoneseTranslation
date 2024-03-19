@@ -1,4 +1,5 @@
-# CantoneseTranslation
+# CANTONMT: Cantonese to English NMT Platform with Fine-Tuned Models using Real and Synthetic Back-Translation Data
+
 Third Year Project for BSc Computer Science at the University of Manchester
 
 ## Introduction

@@ -38,8 +38,9 @@ The user interface should be correctly set up on http://localhost:3000/.
 ## Reference: Please cite our paper if you use the toolkit or data from this repository
 [pre-print](https://github.com/kenrickkung/CantoneseTranslation/blob/main/view-CantonMT_v1.pdf)
 'CANTONMT: Cantonese to English NMT Platform with Fine-Tuned Models using Synthetic Back-Translation Data'. 2024. 
-Kung Yin Hong, Lifeng Han, Riza Batista-Navarro, Goran Nenadic. [Arxiv] 
-](https://arxiv.org/abs/2403.11346)
+Kung Yin Hong, Lifeng Han, Riza Batista-Navarro, Goran Nenadic. [Arxiv](https://arxiv.org/abs/2403.11346)
+
+```latex
 @misc{hong2024cantonmt,
       title={CantonMT: Cantonese to English NMT Platform with Fine-Tuned Models Using Synthetic Back-Translation Data}, 
       author={Kung Yin Hong and Lifeng Han and Riza Batista-Navarro and Goran Nenadic},
@@ -48,6 +49,7 @@ Kung Yin Hong, Lifeng Han, Riza Batista-Navarro, Goran Nenadic. [Arxiv]
       archivePrefix={arXiv},
       primaryClass={cs.CL}
 }
+```
 
 
 

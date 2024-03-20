@@ -35,6 +35,11 @@ npm run dev
 ```
 The user interface should be correctly set up on http://localhost:3000/.
 
+## Manchester NLP club talk
+[recording-on-Youtube](NLPclub-talk Youtube https://youtu.be/KDdGua2wQOU)
+[PPT](https://docs.google.com/presentation/d/1sp2Wn9t1zT-2DQFOpwlKyhiZCXnzC5tGqGfqQA9OuNY/edit?usp=drive_link  )
+[demo-1min](https://youtu.be/s8P5fJjS7Ls?si=KWHOEfoOlAsDqa1l)
+
 ## Reference: Please cite our paper if you use the toolkit or data from this repository
 [pre-print](https://github.com/kenrickkung/CantoneseTranslation/blob/main/view-CantonMT_v1.pdf)
 'CANTONMT: Cantonese to English NMT Platform with Fine-Tuned Models using Synthetic Back-Translation Data'. 2024. 
